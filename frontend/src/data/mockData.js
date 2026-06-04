@@ -119,3 +119,35 @@ export const sampleUploadNames = [
   "Technical_Specs_v3.pdf",
   "Customer_Feedback.pdf",
 ];
+
+// ─── CONTROLLER MOCK DATA ─────────────────────────────────────────────────────
+export const models = [
+  { name: "llama3-8b-instruct", provider: "Meta",      status: "Running", ram: "4.2 GB", latency: "187ms", requests: 423 },
+  { name: "mistral-7b-v0.2",    provider: "Mistral",   status: "Running", ram: "3.8 GB", latency: "203ms", requests: 318 },
+  { name: "phi3-mini-4k",       provider: "Microsoft", status: "Stopped", ram: "0 GB",   latency: "—",     requests: 0   },
+];
+
+export const pendingApprovals = [
+  { id: 1, doc: "Annual_Policy_2025.pdf", by: "Rahul Kumar",  size: "1.2 MB", date: "Today, 10:30" },
+  { id: 2, doc: "Safety_Handbook.pdf",    by: "Anjali Singh", size: "3.4 MB", date: "Today, 09:15" },
+  { id: 3, doc: "HR_Guidelines_v3.pdf",   by: "Vikram Patel", size: "0.9 MB", date: "Yesterday"    },
+];
+
+// ─── ADMIN MOCK DATA ──────────────────────────────────────────────────────────
+export const users = [
+  { id:1, name:"Arjun Sharma",  email:"arjun@omrag.ai",  role:"Admin",      status:"Active",    lastLogin:"Just now"  },
+  { id:2, name:"Priya Mehta",   email:"priya@omrag.ai",  role:"Controller", status:"Active",    lastLogin:"5m ago"    },
+  { id:3, name:"Rahul Kumar",   email:"rahul@omrag.ai",  role:"User",       status:"Active",    lastLogin:"1h ago"    },
+  { id:4, name:"Sneha Tiwari",  email:"sneha@omrag.ai",  role:"Controller", status:"Suspended", lastLogin:"2d ago"    },
+  { id:5, name:"Vikram Patel",  email:"vikram@omrag.ai", role:"User",       status:"Active",    lastLogin:"30m ago"   },
+  { id:6, name:"Anjali Singh",  email:"anjali@omrag.ai", role:"User",       status:"Active",    lastLogin:"3h ago"    },
+  { id:7, name:"Deepak Rao",    email:"deepak@omrag.ai", role:"User",       status:"Suspended", lastLogin:"5d ago"    },
+  { id:8, name:"Kavita Nair",   email:"kavita@omrag.ai", role:"Controller", status:"Active",    lastLogin:"Yesterday" },
+];
+
+export const chatHistoryData = [
+  { id:1, title:"Q4 Revenue Analysis",       date:"Today",      messages:6,  preview:"What were the key revenue findings in Q4?" },
+  { id:2, title:"Product Roadmap Questions", date:"Yesterday",  messages:12, preview:"Summarize the product roadmap priorities..." },
+  { id:3, title:"HR Policy Queries",         date:"2 days ago", messages:4,  preview:"What is the leave policy for contractors?" },
+  { id:4, title:"Technical Architecture",    date:"Last week",  messages:9,  preview:"Explain the microservices architecture..." },
+];

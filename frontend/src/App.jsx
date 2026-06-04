@@ -1,60 +1,84 @@
 // src/App.jsx
-// Root component — manages current page state and renders the correct page.
-// Uses simple state-based routing (no React Router needed).
-
 import { useState } from 'react';
 import './styles/global.css';
 
-import LandingPage   from './pages/LandingPage';
-import AuthPage      from './pages/AuthPage';
-import DashboardPage from './pages/DashboardPage';
-import UploadPage    from './pages/UploadPage';
-import ChatPage      from './pages/ChatPage';
-import DocumentsPage from './pages/DocumentsPage';
-import AnalyticsPage from './pages/AnalyticsPage';
+import LandingPage    from './pages/LandingPage';
+import AuthPage       from './pages/AuthPage';
 
-import { Sidebar, TopBar } from './components/Layout';
+// Admin portal pages
+import AdminDashboard    from './pages/admin/AdminDashboard';
+import UserManagement    from './pages/admin/UserManagement';
+import AdminAnalytics    from './pages/admin/AdminAnalytics';
+import AdminDocuments    from './pages/admin/AdminDocuments';
 
-// ─── PAGES THAT NEED THE SHELL (sidebar + topbar) ────────────────────────────
-const SHELL_PAGES = ['dashboard', 'upload', 'chat', 'documents', 'analytics'];
+// Controller portal pages
+import ControllerDashboard from './pages/controller/ControllerDashboard';
+import UploadDocs          from './pages/controller/UploadDocs';
+import Testing             from './pages/controller/Testing';
+import RequestApproval     from './pages/controller/RequestApproval';
+import ModelDashboard      from './pages/controller/ModelDashboard';
+
+// User portal pages
+import ChatPage      from './pages/user/ChatPage';
+import ChatHistory   from './pages/user/ChatHistory';
+import HelpPage      from './pages/user/HelpPage';
+
+// Layouts (role-specific sidebars)
+import { AdminLayout }      from './layouts/AdminLayout';
+import { ControllerLayout } from './layouts/ControllerLayout';
+import { UserLayout }       from './layouts/UserLayout';
 
 export default function App() {
-  const [page,      setPage]      = useState('landing'); // current route
-  const [collapsed, setCollapsed] = useState(false);     // sidebar collapse state
+  const [page,       setPage]       = useState('landing');
+  const [role,       setRole]       = useState(null);
+  const [activePage, setActivePage] = useState(null);
 
-  const handleLogin  = () => setPage('dashboard');
-  const handleLogout = () => setPage('landing');
+  const handleLogin = (selectedRole) => {
+    setRole(selectedRole);
+    setActivePage(
+      selectedRole === 'admin' ? 'admin-dashboard'
+        : selectedRole === 'controller' ? 'ctrl-dashboard'
+          : 'chat',
+    );
+    setPage('app');
+  };
+  const handleLogout = () => { setPage('landing'); setRole(null); setActivePage(null); };
 
-  // ── Public pages (no shell) ────────────────────────────────────────────
   if (page === 'landing') return <LandingPage onStart={() => setPage('auth')} />;
-  if (page === 'auth')    return <AuthPage    onLogin={handleLogin}           />;
+  if (page === 'auth')    return <AuthPage onLogin={handleLogin} />;
 
-  // ── Authenticated pages (with sidebar + topbar shell) ──────────────────
-  return (
-    <div style={{
-      display: 'flex', height: '100vh',
-      background: '#0a0a0f', color: '#e2e8f0',
-      fontFamily: 'var(--font)', overflow: 'hidden',
-    }}>
-      <Sidebar
-        page={page}
-        setPage={setPage}
-        collapsed={collapsed}
-        setCollapsed={setCollapsed}
-        onLogout={handleLogout}
-      />
+  if (role === 'admin') {
+    return (
+      <AdminLayout activePage={activePage} setActivePage={setActivePage} onLogout={handleLogout}>
+        {activePage === 'admin-dashboard' && <AdminDashboard setPage={setActivePage} />}
+        {activePage === 'user-management' && <UserManagement />}
+        {activePage === 'admin-analytics' && <AdminAnalytics />}
+        {activePage === 'admin-documents' && <AdminDocuments />}
+      </AdminLayout>
+    );
+  }
 
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-        <TopBar page={page} />
+  if (role === 'controller') {
+    return (
+      <ControllerLayout activePage={activePage} setActivePage={setActivePage} onLogout={handleLogout}>
+        {activePage === 'ctrl-dashboard'  && <ControllerDashboard setPage={setActivePage} />}
+        {activePage === 'upload-docs'     && <UploadDocs />}
+        {activePage === 'testing'         && <Testing />}
+        {activePage === 'req-approval'    && <RequestApproval />}
+        {activePage === 'model-dashboard' && <ModelDashboard setPage={setActivePage} />}
+      </ControllerLayout>
+    );
+  }
 
-        <main style={{ flex: 1, overflowY: 'auto' }}>
-          {page === 'dashboard' && <DashboardPage setPage={setPage} />}
-          {page === 'upload'    && <UploadPage    />}
-          {page === 'chat'      && <ChatPage      />}
-          {page === 'documents' && <DocumentsPage />}
-          {page === 'analytics' && <AnalyticsPage />}
-        </main>
-      </div>
-    </div>
-  );
+  if (role === 'user') {
+    return (
+      <UserLayout activePage={activePage} setActivePage={setActivePage} onLogout={handleLogout}>
+        {activePage === 'chat'         && <ChatPage />}
+        {activePage === 'chat-history' && <ChatHistory />}
+        {activePage === 'help'         && <HelpPage />}
+      </UserLayout>
+    );
+  }
+
+  return null;
 }

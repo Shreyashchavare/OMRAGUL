@@ -4,7 +4,13 @@
 //   onLogin  → called after successful sign-in / sign-up
 
 import { useState } from 'react';
-import { Brain, Check, Eye, EyeOff } from 'lucide-react';
+import { Brain, Check, Eye, EyeOff, Shield, Settings2, UserCircle } from 'lucide-react';
+
+const ROLES = [
+  { id: 'admin',      icon: Shield,     label: 'Admin',      subtitle: 'Full system control' },
+  { id: 'controller', icon: Settings2,  label: 'Controller', subtitle: 'Manage models & docs' },
+  { id: 'user',       icon: UserCircle, label: 'User',       subtitle: 'Chat & query' },
+];
 
 // ─── COMPONENT ────────────────────────────────────────────────────────────────
 export default function AuthPage({ onLogin }) {
@@ -13,12 +19,12 @@ export default function AuthPage({ onLogin }) {
   const [resetDone, setResetDone] = useState(false);
 
   // form fields (kept simple — no real validation needed for demo)
-  const [fields, setFields] = useState({ name: '', email: '', password: '', confirm: '' });
+  const [fields, setFields] = useState({ name: '', email: '', password: '', confirm: '', role: 'user' });
   const set = (k) => (e) => setFields((p) => ({ ...p, [k]: e.target.value }));
 
   const handleSubmit = () => {
     if (view === 'forgot') { setResetDone(true); return; }
-    onLogin();
+    onLogin(fields.role);
   };
 
   return (
@@ -64,6 +70,46 @@ export default function AuthPage({ onLogin }) {
             {/* Name — signup only */}
             {view === 'signup' && (
               <Input label="Full name" value={fields.name} onChange={set('name')} placeholder="Arjun Sharma" />
+            )}
+
+            {/* Role selector — login only */}
+            {view === 'login' && (
+              <div style={{ marginBottom: 16 }}>
+                <label style={{ fontSize: 12, color: '#64748b', display: 'block', marginBottom: 8 }}>
+                  Sign in as
+                </label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {ROLES.map(({ id, icon: Icon, label, subtitle }) => {
+                    const selected = fields.role === id;
+                    return (
+                      <button
+                        key={id}
+                        type="button"
+                        onClick={() => setFields((p) => ({ ...p, role: id }))}
+                        style={{
+                          display: 'flex', alignItems: 'center', gap: 12,
+                          padding: '10px 14px', borderRadius: 10, cursor: 'pointer', textAlign: 'left',
+                          background: selected ? 'rgba(99,102,241,0.12)' : 'rgba(255,255,255,0.03)',
+                          border: selected ? '1px solid rgba(99,102,241,0.5)' : '1px solid rgba(255,255,255,0.08)',
+                          transition: 'all 0.15s',
+                        }}
+                      >
+                        <div style={{
+                          width: 36, height: 36, borderRadius: 10, flexShrink: 0,
+                          background: selected ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.05)',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        }}>
+                          <Icon size={18} color={selected ? '#a5b4fc' : '#64748b'} />
+                        </div>
+                        <div>
+                          <div style={{ fontSize: 13, fontWeight: 700, color: selected ? '#e2e8f0' : '#94a3b8' }}>{label}</div>
+                          <div style={{ fontSize: 11, color: '#64748b', marginTop: 2 }}>{subtitle}</div>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
             )}
 
             {/* Email */}
@@ -120,7 +166,7 @@ export default function AuthPage({ onLogin }) {
             {/* OAuth buttons */}
             <div style={{ display: 'flex', gap: 10 }}>
               {['Google', 'GitHub'].map((p) => (
-                <button key={p} onClick={onLogin} style={oauthBtn}>
+                <button key={p} onClick={() => onLogin(fields.role)} style={oauthBtn}>
                   {p}
                 </button>
               ))}
