@@ -7,7 +7,7 @@ import { SidebarShell, TopBar } from './shared/AppShell';
 const NAV = [
   { navKey: 'dashboard',  id: 'admin-dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { navKey: 'approval',   id: 'admin-documents', icon: FileCheck,       label: 'Approval Queue' },
-  { navKey: 'models',     id: 'admin-analytics', icon: BarChart3,       label: 'Model Management' },
+  { navKey: 'models',     id: 'admin-analytics', icon: BarChart3,       label: 'Analytics' },
   { navKey: 'users',      id: 'user-management', icon: Users,           label: 'User Management' },
   { navKey: 'settings',   id: 'admin-dashboard', icon: Settings,        label: 'System Settings' },
 ];
@@ -15,7 +15,7 @@ const NAV = [
 const PAGE_LABELS = {
   'admin-dashboard': 'Dashboard',
   'user-management': 'User Management',
-  'admin-analytics': 'Model Management',
+  'admin-analytics': 'Analytics',
   'admin-documents': 'Approval Queue',
 };
 

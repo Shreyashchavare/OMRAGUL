@@ -8,6 +8,7 @@ import {
   Brain, Sparkles, ArrowRight, Upload, Eye, Layers, Database,
   Zap, Shield, Code, BarChart2, Globe, Star,
 } from 'lucide-react';
+import { OmRagBrand } from '../layouts/shared/AppShell';
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 const STEPS = [
@@ -253,14 +254,8 @@ export default function LandingPage({ onStart }) {
 function Logo() {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-      <div style={{
-        width: 32, height: 32, borderRadius: 9,
-        background: 'linear-gradient(135deg,#6366f1,#a855f7)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-      }}>
-        <Brain size={17} color="#fff" />
-      </div>
-      <span style={{ fontWeight: 800, fontSize: 18, letterSpacing: '-0.02em' }}>VectorMind</span>
+      <OmRagBrand size={32} />
+      <span style={{ fontWeight: 800, fontSize: 18, letterSpacing: '-0.02em' }}>OM-RAG</span>
     </div>
   );
 }
