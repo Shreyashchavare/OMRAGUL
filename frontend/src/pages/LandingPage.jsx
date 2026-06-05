@@ -33,10 +33,9 @@ const TECH = [
 ];
 
 const TEAM = [
-  { name: 'Arjun Sharma',    role: 'AI/ML Engineer',    av: 'AS', color: '#6366f1' },
-  { name: 'Priya Nair',      role: 'Full Stack Dev',    av: 'PN', color: '#ec4899' },
-  { name: 'Rahul Mehta',     role: 'Backend Engineer',  av: 'RM', color: '#10b981' },
-  { name: 'Sneha Kulkarni',  role: 'UI/UX Designer',    av: 'SK', color: '#f59e0b' },
+  { name: 'Samarth Navale',    role: 'AI/ML Engineer',    av: 'AS', color: '#6366f1' },
+  { name: 'Uday Bodare',      role: 'Full Stack Dev',    av: 'PN', color: '#ec4899' },
+  { name: 'Shreyash Chavare',     role: 'Backend Engineer',  av: 'RM', color: '#10b981' },
 ];
 
 // ─── COMPONENT ────────────────────────────────────────────────────────────────
